@@ -1,0 +1,12 @@
+{
+  "env": {
+    "server-dev": {
+      "presets": [
+        "react",
+        ["env", {
+          "targets": { "node": 7 }
+        }]
+      ]
+    }
+  }
+}

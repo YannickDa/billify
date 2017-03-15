@@ -1,0 +1,35 @@
+{
+  "name": "billify",
+  "version": "1.0.0",
+  "description": "Generate bills automaticly",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-dev-server": "BABEL_ENV=server-dev nodemon -- $(npm bin)/babel-node src/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/YannickDa/billify.git"
+  },
+  "keywords": [
+    "bill"
+  ],
+  "author": "Yannick Dalbin <yannick@idvive.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YannickDa/billify/issues"
+  },
+  "homepage": "https://github.com/YannickDa/billify#readme",
+  "dependencies": {
+    "html-pdf": "^2.1.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.0",
+    "babel-core": "^6.24.0",
+    "babel-preset-env": "^1.2.2",
+    "babel-preset-react": "^6.23.0"
+  }
+}
