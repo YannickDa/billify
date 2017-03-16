@@ -1,0 +1,12 @@
+{
+  "company": {
+    "name": "Idvive",
+    "address": {
+      "street": "616 Chemin du Vallon des Gavots",
+      "zipCode": "13400",
+      "city": "Aubagne"
+    },
+    "website": "http://www.idvive.com",
+    "email": "yannick@idvive.com"
+  }
+}

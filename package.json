@@ -22,14 +22,18 @@
   "homepage": "https://github.com/YannickDa/billify#readme",
   "dependencies": {
     "html-pdf": "^2.1.0",
+    "moment": "^2.17.1",
+    "moment-timezone": "^0.5.11",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "react-moment": "^0.2.2"
   },
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
     "babel-preset-env": "^1.2.2",
-    "babel-preset-react": "^6.23.0"
+    "babel-preset-react": "^6.23.0",
+    "babel-preset-stage-0": "^6.22.0"
   }
 }

@@ -1,7 +1,28 @@
-import React, { PureComponent } from "react"
+import React, { PureComponent, PropTypes } from "react"
+import Moment from "react-moment"
 
 export default class Idvive extends PureComponent {
+  static propTypes = {
+    billnumber: PropTypes.string.isRequired,
+    clientName: PropTypes.string.isRequired,
+    clientAddress: PropTypes.object.isRequired,
+    companyName: PropTypes.string.isRequired,
+    companyAddress: PropTypes.object.isRequired,
+    companyWebsite: PropTypes.string.isRequired,
+    companyEmail: PropTypes.string.isRequired
+  }
+
   render() {
+    const {
+      billnumber,
+      clientName,
+      clientAddress,
+      companyName,
+      companyAddress,
+      companyWebsite,
+      companyEmail
+    } = this.props
+
     return (
       <div>
         <div id="pageHeader" style={{ margin: 0, padding: "10px 10px 0" }}>
@@ -23,7 +44,7 @@ export default class Idvive extends PureComponent {
                       fontSize: "12px"
                     }}
                   >
-                    Facture n°{this.props.billnumber}
+                    Facture n°{billnumber}
                   </div>
                 </div>
               </div>
@@ -36,7 +57,7 @@ export default class Idvive extends PureComponent {
                   fontSize: "8px"
                 }}
               >
-                Mardi 01 Mars 2017
+                <Moment format="dddd Do MMMM YYYY" locale="fr" />
               </div>
             </div>
             <div className="row">
@@ -56,20 +77,20 @@ export default class Idvive extends PureComponent {
           <div className="container-fluid">
             <div className="row">
               <div className="col-xs-10 col-xs-offset-1" style={{ fontSize: "10px" }}>
-                <strong style={{ color: "#F9A319", fontSize: "14px" }}>IDVIVE</strong>
-                <div>616 Chemin du Vallon des Gavots</div>
-                <div>13400 Aubagne</div>
-                <div><a href="http://www.idvive.com" style={{ color: "#F9A319" }}>http://www.idvive.com</a></div>
-                <div><a href="mailto:yannick@idvive.com" style={{ color: "#F9A319" }}>yannick@idvive.com</a></div>
+                <strong style={{ color: "#F9A319", fontSize: "14px" }} className="text-uppercase">{companyName}</strong>
+                <div>{companyAddress.street}</div>
+                <div>{companyAddress.zipCode} {companyAddress.city}</div>
+                <div><a href={companyWebsite} style={{ color: "#F9A319" }}>{companyWebsite}</a></div>
+                <div><a href={companyEmail} style={{ color: "#F9A319" }}>{companyEmail}</a></div>
               </div>
             </div>
             <div className="row">
               <div className="col-xs-10 col-xs-offset-1 text-right" style={{ fontSize: "10px", color: "#949494" }}>
                 <strong style={{ color: "#7D7D7D", fontSize: "14px" }} className="text-uppercase">
-                  Client
+                  {clientName}
                 </strong>
-                <div>address</div>
-                <div>zipcode city</div>
+                <div>{clientAddress.street}</div>
+                <div>{clientAddress.zipCode} {clientAddress.city}</div>
               </div>
             </div>
             <div className="row">
