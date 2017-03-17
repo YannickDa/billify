@@ -10,7 +10,11 @@ const client = {
   }
 }
 
-generatePDF("201703011", client, config.company).then(() => {
+const items = [
+  { qte: 2, description: "Développeur Javascript", price: 500 }
+]
+
+generatePDF("201703011", items, client, config.company).then(() => {
   console.log("PDF generated")
 }).catch(err => {
   console.log("Error on PDF generation", err)

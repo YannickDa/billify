@@ -7,6 +7,8 @@
       "city": "Aubagne"
     },
     "website": "http://www.idvive.com",
-    "email": "yannick@idvive.com"
+    "email": "yannick@idvive.com",
+    "iban": "FR76 1000 1000 1000 1000 1000 100",
+    "bic": "CMCMCMMM"
   }
 }

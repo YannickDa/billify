@@ -6,7 +6,7 @@ import Template from "./component/Template"
 import Idvive from "./component/Idvive"
 
 
-export default (billnumber, client, company) => {
+export default (billnumber, items, client, company) => {
   return new Promise((success, error) => {
     const html = ReactDOMServer.renderToStaticMarkup(
       <Template>
@@ -20,6 +20,10 @@ export default (billnumber, client, company) => {
           companyAddress={company.address}
           companyWebsite={company.website}
           companyEmail={company.email}
+          companyIban={company.iban}
+          companyBic={company.bic}
+
+          items={items}
         />
       </Template>
     )
