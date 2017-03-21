@@ -1,29 +1,38 @@
 import React from "react"
 import ReactDOMServer from "react-dom/server"
 import pdf from "html-pdf"
+import Moment from "react-moment"
+
+import { formatPrice, totalCalculation, tvaCalculation } from "../utils/prices"
 
 import Template from "./component/Template"
-import Idvive from "./component/Idvive"
 
-
-export default (billnumber, items, client, company) => {
+export default (billnumber, items, client, company, paiementMethod, Theme) => {
   return new Promise((success, error) => {
+    const date = <Moment format="dddd Do MMMM YYYY" locale="fr" />
+    const totalHT = totalCalculation(items)
+    const tva = tvaCalculation(totalHT, 20)
+
     const html = ReactDOMServer.renderToStaticMarkup(
       <Template>
-        <Idvive
+        <Theme
           billnumber={billnumber}
+          date={date}
 
-          clientName={client.name}
-          clientAddress={client.address}
+          client={client}
+          company={company}
 
-          companyName={company.name}
-          companyAddress={company.address}
-          companyWebsite={company.website}
-          companyEmail={company.email}
-          companyIban={company.iban}
-          companyBic={company.bic}
+          items={items.map(i => {
+            i.total = formatPrice(i.price*i.qte)
+            i.price = formatPrice(i.price)
+            return i
+          })}
 
-          items={items}
+          paiementMethod={paiementMethod}
+          totalHT={formatPrice(totalHT)}
+          tauxTVA={20}
+          tva={formatPrice(tva)}
+          totalTTC={formatPrice(totalHT + tva)}
         />
       </Template>
     )

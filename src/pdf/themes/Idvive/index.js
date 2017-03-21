@@ -1,79 +1,98 @@
 import React, { PureComponent, PropTypes } from "react"
-import Moment from "react-moment"
 
-const formatPrice = price => {
-  return new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(price)
-}
-
-const calculTotal = items => {
-  return items.reduce((c, i) => (c + (i.price * i.qte)), 0)
-}
-
-const calculTva = (total, tva) => {
-  return Math.ceil(((total*tva)/100)*100)/100
-}
+import logo from "./logo.png"
+import "./index.scss"
 
 class BillItem extends PureComponent {
   static propTypes = {
     qte: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired
+    price: PropTypes.string.isRequired,
+    total: PropTypes.string.isRequired
   }
 
   render() {
-    const { qte, description, price } = this.props
+    const { qte, description, price, total } = this.props
 
     return (
       <tr>
         <td className="text-center" style={{ padding: "5px" }}>{qte}</td>
         <td>{description}</td>
-        <td className="text-right" style={{ padding: "5px" }}>{formatPrice(price)}</td>
-        <td className="text-right" style={{ padding: "5px" }}>{formatPrice(price*qte)}</td>
+        <td className="text-right" style={{ padding: "5px" }}>{price}</td>
+        <td className="text-right" style={{ padding: "5px" }}>{total}</td>
       </tr>
     )
   }
 }
 
+const AddressPropType = {
+  street: PropTypes.string.isRequired,
+  zipCode: PropTypes.string.isRequired,
+  city: PropTypes.string.isRequired
+}
+
 export default class Idvive extends PureComponent {
   static propTypes = {
     billnumber: PropTypes.string.isRequired,
-    clientName: PropTypes.string.isRequired,
-    clientAddress: PropTypes.object.isRequired,
-    companyName: PropTypes.string.isRequired,
-    companyAddress: PropTypes.object.isRequired,
-    companyWebsite: PropTypes.string.isRequired,
-    companyEmail: PropTypes.string.isRequired,
-    companyIban: PropTypes.string.isRequired,
-    companyBic: PropTypes.string.isRequired
+    date: PropTypes.object.isRequired,
+
+    client: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      address: PropTypes.shape(AddressPropType).isRequired,
+    }).isRequired,
+
+    company: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      address: PropTypes.shape(AddressPropType).isRequired,
+      website: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      iban: PropTypes.string.isRequired,
+      bic: PropTypes.string.isRequired,
+      structure: PropTypes.string.isRequired,
+      capital: PropTypes.string.isRequired,
+      siret: PropTypes.string.isRequired,
+      ape: PropTypes.string.isRequired,
+      rcs: PropTypes.string.isRequired
+    }).isRequired,
+
+    items: PropTypes.arrayOf(PropTypes.shape({
+      qte: PropTypes.number.isRequired,
+      description: PropTypes.string.isRequired,
+      price: PropTypes.string.isRequired,
+      total: PropTypes.string.isRequired
+    })),
+
+    paiementMethod: PropTypes.string.isRequired,
+    totalHT: PropTypes.string.isRequired,
+    tva: PropTypes.string.isRequired,
+    tauxTVA: PropTypes.number.isRequired,
+    totalTTC: PropTypes.string.isRequired
   }
 
   render() {
     const {
       billnumber,
-      clientName,
-      clientAddress,
-      companyName,
-      companyAddress,
-      companyWebsite,
-      companyEmail,
-      companyIban,
-      companyBic,
-      items
+      date,
+      client,
+      company,
+      items,
+      paiementMethod,
+      totalHT,
+      tva,
+      tauxTVA,
+      totalTTC
     } = this.props
 
-    const total = calculTotal(items)
-    const tva = calculTva(total, 20)
-
     return (
-      <div>
-        <div id="pageHeader" style={{ margin: 0, padding: "10px 10px 0" }}>
+      <div className="IdviveTheme">
+        <div id="pageHeader">
           <div className="container-fluid">
             <div className="row">
               <div className="col-xs-10 col-xs-offset-1 text-center">
                 <div style={{ display: "table", width: "100%" }}>
                   <div style={{ display: "table-cell" }}>
                     <img
-                      src="file:///home/yannick/workspace/billify/src/pdf/component/Idvive/logo.png"
+                      src={logo}
                       style={{ width: "80px" }} />
                   </div>
                   <div
@@ -98,7 +117,7 @@ export default class Idvive extends PureComponent {
                   fontSize: "8px"
                 }}
               >
-                <Moment format="dddd Do MMMM YYYY" locale="fr" />
+                {date}
               </div>
             </div>
             <div className="row">
@@ -118,22 +137,22 @@ export default class Idvive extends PureComponent {
           <div className="container-fluid">
             <div className="row">
               <div className="col-xs-10 col-xs-offset-1" style={{ fontSize: "10px" }}>
-                <strong style={{ color: "#F9A319", fontSize: "14px" }} className="text-uppercase">{companyName}</strong>
+                <strong style={{ color: "#F9A319", fontSize: "14px" }} className="text-uppercase">{company.name}</strong>
                 <div>
-                  {companyAddress.street}, {companyAddress.zipCode} {companyAddress.city}
+                  {company.address.street}, {company.address.zipCode} {company.address.city}
                 </div>
                 <div>
-                  <a href={companyWebsite} style={{ color: "#F9A319" }}>{companyWebsite}</a> | 
-                  &nbsp;<a href={companyEmail} style={{ color: "#F9A319" }}>{companyEmail}</a>
+                  <a href={company.website} style={{ color: "#F9A319" }}>{company.website}</a> | 
+                  &nbsp;<a href={company.email} style={{ color: "#F9A319" }}>{company.email}</a>
                 </div>
               </div>
             </div>
             <div className="row">
               <div className="col-xs-10 col-xs-offset-1 text-right" style={{ fontSize: "10px", color: "#949494" }}>
                 <strong style={{ color: "#7D7D7D", fontSize: "14px" }} className="text-uppercase">
-                  {clientName}
+                  {client.name}
                 </strong>
-                <div>{clientAddress.street}, {clientAddress.zipCode} {clientAddress.city}</div>
+                <div>{client.address.street}, {client.address.zipCode} {client.address.city}</div>
               </div>
             </div>
             <div className="row">
@@ -152,7 +171,7 @@ export default class Idvive extends PureComponent {
                     <tr><td colSpan={4}><div style={{ margin: "20px" }} /></td></tr>
                     <tr>
                       <td colSpan={2} style={{ padding: "5px 0" }}>
-                        <strong>IBAN:</strong> {companyIban}
+                        <strong>IBAN:</strong> {company.iban}
                       </td>
                       <td style={{
                         textAlign: "right",
@@ -164,18 +183,18 @@ export default class Idvive extends PureComponent {
                         Mode de paiement
                       </td>
                       <td style={{ textAlign: "right", background: "#D9D9D9", padding: "5px" }}>
-                        Virement
+                        {paiementMethod}
                       </td>
                     </tr>
                     <tr>
                       <td colSpan={2} style={{ padding: "5px 0" }}>
-                        <strong>BIC:</strong> {companyBic}
+                        <strong>BIC:</strong> {company.bic}
                       </td>
                       <td style={{ textAlign: "right", padding: "5px", fontWeight: "bold" }}>
                         Total HT
                       </td>
                       <td style={{ textAlign: "right", padding: "5px" }}>
-                        {formatPrice(total)}
+                        {totalHT}
                       </td>
                     </tr>
                     <tr>
@@ -184,7 +203,7 @@ export default class Idvive extends PureComponent {
                         Taux TVA
                       </td>
                       <td style={{ textAlign: "right", padding: "5px" }}>
-                        20%
+                        {tauxTVA}%
                       </td>
                     </tr>
                     <tr>
@@ -193,7 +212,7 @@ export default class Idvive extends PureComponent {
                         TVA
                       </td>
                       <td style={{ textAlign: "right", padding: "5px" }}>
-                        {formatPrice(tva)}
+                        {tva}
                       </td>
                     </tr>
                     <tr>
@@ -202,11 +221,31 @@ export default class Idvive extends PureComponent {
                         Total TTC
                       </td>
                       <td style={{ textAlign: "right", padding: "5px" }}>
-                        {formatPrice(total+tva)}
+                        {totalTTC}
                       </td>
                     </tr>
                   </tbody>
                 </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="pageFooter" style={{ margin: 0, padding: "10px 10px 0" }}>
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-xs-12" style={{ fontSize: "10px", color: "#A7A7A7", position: "relative" }}>
+                <div className="row">
+                  <div className="col-xs-8" style={{ fontSize: "8px" }}>
+                    {company.structure} au capital de {company.capital} - SIRET : {company.siret} - Code APE : {company.ape} - 
+                    &nbsp;{company.rcs} - Paiement sous 30 jours - En cas de retard de paiement, une pénalité de 3 (trois) fois le taux
+                    d'intérêt légal sera appliquée, à laquelle s'ajoutera une indemnité forfaitaire pour frais de recouvrement de 40 €.
+                  </div>
+                </div>
+
+                <div style={{ position: "absolute", bottom: 0, right: "20px" }}>
+                  Page <strong>{"{{page}}"}</strong> sur <strong>{"{{pages}}"}</strong>
+                </div>
               </div>
             </div>
           </div>

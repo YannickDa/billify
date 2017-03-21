@@ -9,6 +9,11 @@
     "website": "http://www.idvive.com",
     "email": "yannick@idvive.com",
     "iban": "FR76 1000 1000 1000 1000 1000 100",
-    "bic": "CMCMCMMM"
+    "bic": "CMCMCMMM",
+    "structure": "SARL",
+    "capital": "2 000€",
+    "siret": "524 134 376 00010",
+    "ape": "6202A",
+    "rcs": "RCS Marseille B 524 134 376"
   }
 }

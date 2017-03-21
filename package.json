@@ -4,8 +4,13 @@
   "description": "Generate bills automaticly",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start-dev-server": "BABEL_ENV=server-dev nodemon -- $(npm bin)/babel-node src/server"
+    "dev": "run-p development-build-server development-prepare-server-build development-server-delayed",
+    "development-prepare-server-build": "BABEL_ENV=server-dev universal-webpack --settings ./webpack/universal-webpack-settings.json prepare",
+    "development-build-server": "BABEL_ENV=server-dev $(npm bin)/webpack --config ./webpack/webpack.config.server.development.babel.js --watch --colors --display-error-details",
+    "development-server-delayed": "run-s delay development-server",
+    "delay": "node ./src/sleep 10000",
+    "development-server": "BABEL_ENV=server-dev nodemon --exec $(npm bin)/babel-node --watch ./src/server --watch ./src/pdf -- ./src/server/start.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -32,8 +37,19 @@
     "babel": "^6.23.0",
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
     "babel-preset-env": "^1.2.2",
     "babel-preset-react": "^6.23.0",
-    "babel-preset-stage-0": "^6.22.0"
+    "babel-preset-stage-0": "^6.22.0",
+    "css-loader": "^0.27.3",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.10.1",
+    "img-loader": "^2.0.0",
+    "node-sass": "^4.5.1",
+    "npm-run-all": "^4.0.2",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.15.0",
+    "universal-webpack": "^0.3.7",
+    "webpack": "^2.2.1"
   }
 }
