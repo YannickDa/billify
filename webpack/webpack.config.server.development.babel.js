@@ -1,10 +1,10 @@
 const webpack = require("webpack");
-const baseConfiguration = require("./webpack.config.server");
+const webpackShell = require("webpack-shell-plugin")
+const baseServerConfig = require("./webpack.config.server")
 
-const configuration = Object.assign({}, baseConfiguration);
-
-configuration.output.publicPath = `http://127.0.0.1:8080${configuration.output.publicPath}`;
-configuration.devtool = "inline-source-map";
+const configuration = Object.assign({}, baseServerConfig)
+configuration.output.publicPath = `http://127.0.0.1:8080${baseServerConfig.output.publicPath}`
+configuration.devtool = "eval-source-map"
 
 configuration.plugins = configuration.plugins.concat(
   new webpack.DefinePlugin({
@@ -12,10 +12,14 @@ configuration.plugins = configuration.plugins.concat(
       NODE_ENV: JSON.stringify("development"),
       BABEL_ENV: JSON.stringify("server-dev"),
       BROWSER: JSON.stringify(false)
-    },
+    }
+  }),
 
-    __development__: true,
+  new webpackShell({
+    onBuildEnd: [
+      "nodemon --watch build ./build/server.js"
+    ]
   })
-);
+)
 
-module.exports = configuration;
+module.exports = configuration

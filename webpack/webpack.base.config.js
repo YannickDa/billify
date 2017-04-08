@@ -1,20 +1,10 @@
 const path = require("path")
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 const rootFolder = path.resolve(__dirname, "..")
 
 module.exports = {
   context: rootFolder,
-
-  entry: {
-    main: "./src/browser/js/index.js"
-  },
-
-  output: {
-    path: path.resolve(rootFolder, "public"),
-    publicPath: "/",
-    filename: "[name].[hash].js",
-    chunkFilename: "[name].[hash].js"
-  },
 
   module: {
     rules: [
@@ -27,11 +17,13 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [
-          "style-loader",
-          "css-loader",
-          "sass-loader"
-        ]
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: [
+            "css-loader",
+            "sass-loader"
+          ]
+        })
       },
       {
         test: /\.(jpg|png|gif)$/,
@@ -50,5 +42,7 @@ module.exports = {
     }
   },
 
-  plugins: []
+  plugins: [
+    new ExtractTextPlugin("style.css")
+  ]
 }

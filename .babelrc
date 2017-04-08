@@ -6,9 +6,12 @@
         ["env", {
           "targets": { "node": 7 },
           "modules": false
-        }],
-        "stage-0"
+        }]
       ]
     }
-  }
+  },
+  plugins: [
+    "transform-do-expressions",
+    "transform-class-properties"
+  ]
 }

@@ -16,10 +16,8 @@ const items = [
   { qte: 2, description: "Développeur Javascript", price: 500 }
 ]
 
-export default settings => {
-  generatePDF("201703011", items, client, config.company, "Virement", IdviveTheme).then(() => {
-    console.log("PDF generated")
-  }).catch(err => {
-    console.log("Error on PDF generation", err)
-  })
-}
+generatePDF("201703011", items, client, config.company, "Virement", IdviveTheme).then(() => {
+  console.log("PDF generated")
+}).catch(err => {
+  console.log("Error on PDF generation", err)
+})
