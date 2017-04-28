@@ -10,7 +10,7 @@ configuration.entry = {
 
 configuration.output = {
   path: path.resolve(baseConfig.context, "build"),
-  publicPath: "/assets/",
+  publicPath: "",
   filename: "[name].js",
   chunkFilename: "[name].js"
 }
