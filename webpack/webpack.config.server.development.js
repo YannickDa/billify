@@ -1,5 +1,4 @@
 const webpack = require("webpack");
-const webpackShell = require("webpack-shell-plugin")
 const baseServerConfig = require("./webpack.config.server")
 
 const configuration = Object.assign({}, baseServerConfig)
@@ -13,12 +12,6 @@ configuration.plugins = configuration.plugins.concat(
       BABEL_ENV: JSON.stringify("server-dev"),
       BROWSER: JSON.stringify(false)
     }
-  }),
-
-  new webpackShell({
-    onBuildEnd: [
-      "nodemon --watch build ./build/server.js"
-    ]
   })
 )
 

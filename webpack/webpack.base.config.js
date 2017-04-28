@@ -1,4 +1,5 @@
 const path = require("path")
+const webpack = require("webpack")
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 const rootFolder = path.resolve(__dirname, "..")
@@ -43,6 +44,7 @@ module.exports = {
   },
 
   plugins: [
-    new ExtractTextPlugin("style.css")
+    new ExtractTextPlugin("style.css"),
+    new webpack.IgnorePlugin(/vertx/)
   ]
 }
